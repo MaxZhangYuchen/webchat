@@ -1,0 +1,24 @@
+# 配置文件
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver   # mysql8版本的数据库使用这个driver
+    url: jdbc:mysql://localhost:3306/chat?user=root/serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&&useSSL=false #时区，字符集，编码，SSL认证
+    username: root
+    password: 123456
+  mail:
+    protocol: smtp # 邮件协议
+    host: smtp.163.com # qq邮箱 smtp 服务器地址
+    port: 25  # 默认端口
+    username: maxzhangyuchen@163.com  # 发件人邮箱地址
+    password: JVKJOCYYUWRIDIGS # 授权码
+    default-encoding: utf-8  # 编码字符集
+    properties:
+      mail:
+        debug: true  # 开启debug模式后会完整打印邮件日志
+
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true  # 开启驼峰映射
+
