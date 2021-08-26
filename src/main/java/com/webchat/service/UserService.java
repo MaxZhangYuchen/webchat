@@ -33,9 +33,18 @@ public class UserService {
      */
     @Transactional(rollbackFor = Exception.class)  //出错回滚
     public Map<String, Object> createAccount(User user){
+
+        Map<String, Object> resultMap = new HashMap<>();
+        //根据邮箱查询用户
+        List<User> userList = userMapper.selectUserByEmail(user.getEmail());
+        //查询到多个用户，联系管理员
+        if(!userList.isEmpty()){
+            resultMap.put("code", 400);
+            resultMap.put("message", "账号已存在");
+            return resultMap;
+        }
         // 雪花算法生成确认码，保证不会重复
         String confirmCode = IdUtil.getSnowflake(1,1).nextIdStr();
-
         // salt
         String salt = RandomUtil.randomString(6);
 
@@ -56,13 +65,14 @@ public class UserService {
         //新增账号
         int result = userMapper.insertUser(user);
 
-        Map<String, Object> resultMap = new HashMap<>();
+
         if(result >0){
             //发送邮件
             String activationUrl = "http://localhost:8080/user/activation?confirmCode=" + confirmCode; //在链接后面追加confirmCode
             mailService.sendMailForActivationAccount(activationUrl, user.getEmail());
+            String name = user.getNickname();
             resultMap.put("code", 200);
-            resultMap.put("message", "注册成功，前往邮箱进行账号激活");
+            resultMap.put("message", name+"注册成功，前往邮箱进行账号激活");
         }else{
             resultMap.put("code", 400);
             resultMap.put("message", "注册失败");
@@ -70,11 +80,15 @@ public class UserService {
         return resultMap;
     }
 
-
+    /**
+     * 登录账户
+     * @param user
+     * @return
+     */
+    @Transactional
     public Map<String, Object> loginAccount(User user){
         Map<String, Object> resultMap = new HashMap<>();
         //根据邮箱查询用户
-
         List<User> userList = userMapper.selectUserByEmail(user.getEmail());
         //查询不到，返回：用户未激活
         if(userList == null || userList.isEmpty()){
@@ -110,6 +124,7 @@ public class UserService {
      * @param confirmCode
      * @return
      */
+    @Transactional
     public Map<String, Object> activationAccount(String confirmCode) {
         Map<String,Object> resultMap = new HashMap<>();
         //根据确认码查询用户
@@ -133,4 +148,5 @@ public class UserService {
         }
         return resultMap;
     }
+
 }

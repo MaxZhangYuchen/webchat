@@ -56,11 +56,15 @@
                                 rules: [
                                     {
                                         type   : 'empty',
-                                        prompt : 'Please enter your e-mail'
+                                        prompt : '请输入昵称'
+                                    },
+                                    {
+                                        type   : 'empty',
+                                        prompt : '请输入邮箱'
                                     },
                                     {
                                         type   : 'email',
-                                        prompt : 'Please enter a valid e-mail'
+                                        prompt : '请输入有效邮箱'
                                     }
                                 ]
                             },
@@ -69,11 +73,11 @@
                                 rules: [
                                     {
                                         type   : 'empty',
-                                        prompt : 'Please enter your password'
+                                        prompt : '请输入密码'
                                     },
                                     {
                                         type   : 'length[6]',
-                                        prompt : 'Your password must be at least 6 characters'
+                                        prompt : '密码长度应大于6位'
                                     }
                                 ]
                             }
@@ -91,7 +95,7 @@
         <h2 class="ui teal image header">
             <img src="logo.png" class="image">
             <div class="content">
-                Sign Up
+                注册
             </div>
         </h2>
         <form class="ui large form" onsubmit="return false;">
@@ -99,19 +103,25 @@
                 <div class="field">
                     <div class="ui left icon input">
                         <i class="user icon"></i>
-                        <input type="text" name="email" placeholder="E-mail address" id="email">
+                        <input type="text" name="nickname" placeholder="请输入昵称" id="nickname">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="user icon"></i>
+                        <input type="text" name="email" placeholder="电子邮件地址" id="email">
                     </div>
                 </div>
                 <div class="field">
                     <div class="ui left icon input">
                         <i class="lock icon"></i>
-                        <input type="password" name="password" placeholder="Password" id="password">
+                        <input type="password" name="password" placeholder="密码" id="password">
                     </div>
                 </div>
                 <div class="field">
                     <div class="ui left icon input">
                         <i class="lock icon"></i>
-                        <input type="password" name="repassword" placeholder="Input Password Again">
+                        <input type="password" name="repassword" placeholder="再次输入密码" id="repassword">
                     </div>
                 </div>
                 <div class="ui fluid large teal submit button" id="registry">registry</div>
@@ -122,7 +132,7 @@
         </form>
 
         <div class="ui message">
-            Already signed up? <a href="/login">Sign In</a>
+            已经完成注册 <a href="/login">登录</a>
         </div>
     </div>
 </div>
@@ -133,6 +143,7 @@
             url:"/user/create",
             type:"POST",
             data:{
+                nickname: $("#nickname").val(),
                 email: $("#email").val(), //获取email
                 password: $("#password").val()
             },

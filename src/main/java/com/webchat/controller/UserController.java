@@ -27,6 +27,7 @@ public class UserController {
     public Map<String,Object> createAccount(User user){
         return userService.createAccount(user);
     }
+
     /**
      * 登录账号
      * @param user

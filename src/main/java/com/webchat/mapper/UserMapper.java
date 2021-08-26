@@ -10,44 +10,38 @@ import org.mybatis.spring.annotation.MapperScan;
 import java.util.List;
 
 
-//SQL编写
+//SQL
 public interface UserMapper {
-
-    /*
-    * 新增账号
-    * @param user
-    * @return
-    * */
-
-    @Insert("INSERT INTO user( email, password, salt, confirm_code, activation_time, is_valid)" +
-            "VALUES(#{email}, #{password}, #{salt}, #{confirmCode}, #{activationTime}, #{isValid})")
+    /**
+     * 新增账号
+     * @param user
+     * @return
+     */
+    @Insert("INSERT INTO user( nickname, email, password, salt, confirm_code, activation_time, is_valid)" +
+            "VALUES(#{nickname}, #{email}, #{password}, #{salt}, #{confirmCode}, #{activationTime}, #{isValid})")
     int insertUser(User user);
 
-    /*
-     *
+    /**
      * 根据确认码查询用户
      * @param confirmCode
      * @return
-     * */
+     */
     @Select("SELECT email, activation_time FROM user WHERE confirm_code = #{confirmCode} AND is_valid=0")
     User selectUserByConfirmCode(@Param("confirmCode") String confirmCode);
 
-
-    /*
-     *
-     * 根据确认码查询用户并 修改状态值为1
+    /**
+     * 根据确认码查询用户并修改is_valid=1
      * @param confirmCode
      * @return
-     * */
+     */
     @Update("UPDATE user SET is_valid=1 WHERE confirm_code = #{confirmCode}")
-    int updateUserByConfirmCode(@Param("confirmCode")String confirmCode);
+    int updateUserByConfirmCode(@Param("confirmCode") String confirmCode);
 
-    /*
-     *
+    /**
      * 根据邮箱查询用户
-     * @param confirmCode
+     * @param email
      * @return
-     * */
+     */
     @Select("SELECT email, password, salt FROM user WHERE email = #{email} AND is_valid=1")
     List<User> selectUserByEmail(@Param("email") String email);
 }
