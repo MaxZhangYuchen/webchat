@@ -13,7 +13,7 @@ import java.util.List;
 //SQL
 public interface UserMapper {
     /**
-     * 新增账号
+     * 新增账号，createAccount
      * @param user
      * @return
      */
@@ -22,7 +22,7 @@ public interface UserMapper {
     int insertUser(User user);
 
     /**
-     * 根据确认码查询用户
+     * 根据确认码查询用户，activationAccount
      * @param confirmCode
      * @return
      */
@@ -30,7 +30,7 @@ public interface UserMapper {
     User selectUserByConfirmCode(@Param("confirmCode") String confirmCode);
 
     /**
-     * 根据确认码查询用户并修改is_valid=1
+     * 经过上一步查询后没有问题，并且在激活时间之内，activationAccount
      * @param confirmCode
      * @return
      */
@@ -38,11 +38,14 @@ public interface UserMapper {
     int updateUserByConfirmCode(@Param("confirmCode") String confirmCode);
 
     /**
-     * 根据邮箱查询用户
+     * 根据邮箱查询用户，loginAccount
+     * 查询出昵称，邮箱，密码，盐
      * @param email
      * @return
      */
-    @Select("SELECT email, password, salt FROM user WHERE email = #{email} AND is_valid=1")
+    @Select("SELECT nickname, email, password, salt FROM user WHERE email = #{email} AND is_valid=1")
     List<User> selectUserByEmail(@Param("email") String email);
+
+
 }
 

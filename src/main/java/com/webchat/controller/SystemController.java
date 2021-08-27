@@ -1,6 +1,8 @@
 package com.webchat.controller;
 
+import com.webchat.entity.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -25,4 +27,11 @@ public class SystemController {
     public String registry(){
         return "registry";  //thymeleaf 模板引擎
     }
+
+    @RequestMapping("chat")
+    public String chatRoom(Model model, User user){
+        model.addAttribute("nickname",user.getNickname());
+        return "chatroom";
+    }
+
 }

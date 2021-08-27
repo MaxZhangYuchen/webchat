@@ -96,7 +96,7 @@ public class UserService {
             resultMap.put("message", "该用户不存在或未激活");
             return resultMap;
         }
-        //查询到多个用户，联系管理员
+        //查询到多个用户，联系管理员，这个问题在注册的时候进行了限制，正常应该不会出现
         if(userList.size()>1){
             resultMap.put("code", 400);
             resultMap.put("message", "账号异常联系管理员");
@@ -104,16 +104,17 @@ public class UserService {
         }
         //查询到一个用户，进行密码比对
         User user1 = userList.get(0);  //u为userlist的第一个，从数据库中查到的
-        String md5psw = SecureUtil.md5(user.getPassword() + user1.getSalt());
+        String md5psw = SecureUtil.md5(user.getPassword() + user1.getSalt());      //浏览器获取到的输入的密码+账号在数据库存储的salt ->生成MD5与用户保存在数据库中的密码进行比对
         //密码不一致，返回，用户名或密码错误
         if(!user1.getPassword().equals(md5psw)){
             resultMap.put("code", 400);
-            resultMap.put("message", "用户名密码错误");
+            resultMap.put("message", "邮箱或密码错误");
             return resultMap;
         }
         //相同，返回：登录成功
         resultMap.put("code", 200);
         resultMap.put("message", "登录成功");
+        resultMap.put("nickname", user1.getNickname());
         return resultMap;
 
 

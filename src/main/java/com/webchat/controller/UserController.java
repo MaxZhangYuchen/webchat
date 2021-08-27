@@ -2,6 +2,7 @@ package com.webchat.controller;
 
 import com.webchat.entity.User;
 import com.webchat.service.UserService;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,14 +34,20 @@ public class UserController {
      * @param user
      * @return
      */
-    @PostMapping("login")
+    @PostMapping({"login", "chatroom"})
     public Map<String,Object> loginAccount(User user){
         return userService.loginAccount(user);
     }
 
-
+    /**
+     * 激活账号
+     * @param confirmCode
+     * @return
+     */
     @GetMapping("activation")
     public Map<String, Object> activationAccount(String confirmCode){
         return userService.activationAccount(confirmCode);
     }
+
+
 }
