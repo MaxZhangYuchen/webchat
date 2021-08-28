@@ -8,18 +8,18 @@ var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('.connecting');
 
 var stompClient = null;
-var username = null;
+
+var url = location.href;
+var num = url.indexOf("?");  //找到？的位置
+var username = url.substr(num+1);  //解析出用户名
 
 var colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
     '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
 ];
 
-function connect(event) {
-    username = document.querySelector('#name').value.trim();
+function connect() {
     if(username) {
-        usernamePage.classList.add('hidden');
-        chatPage.classList.remove('hidden');
         //定义请求服务器端点
         var socket = new SockJS('/ws');
         //创建stomp客户端
@@ -27,7 +27,7 @@ function connect(event) {
         //连接服务器端点
         stompClient.connect({}, onConnected, onError);
     }
-    event.preventDefault();
+    //event.preventDefault();
 }
 
 
@@ -73,10 +73,10 @@ function onMessageReceived(payload) {
 
     if(message.type === 'JOIN') {
         messageElement.classList.add('event-message');
-        message.content = message.sender + ' joined!';
+        message.content = message.sender + ' 来到聊天室!';
     } else if (message.type === 'LEAVE') {
         messageElement.classList.add('event-message');
-        message.content = message.sender + ' left!';
+        message.content = message.sender + ' 离开聊天室!';
     } else {
         messageElement.classList.add('chat-message');
 
@@ -113,5 +113,5 @@ function getAvatarColor(messageSender) {
     return colors[index];
 }
 
-usernameForm.addEventListener('submit', connect, true)
+window.onload = connect();
 messageForm.addEventListener('submit', sendMessage, true)

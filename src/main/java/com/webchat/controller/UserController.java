@@ -34,7 +34,7 @@ public class UserController {
      * @param user
      * @return
      */
-    @PostMapping({"login", "chatroom"})
+    @PostMapping("login")
     public Map<String,Object> loginAccount(User user){
         return userService.loginAccount(user);
     }

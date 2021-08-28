@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+//lombook创建构造函数
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,4 +18,5 @@ public class ChatMessage {
         JOIN,   //加入
         LEAVE   //离开
     }
+
 }

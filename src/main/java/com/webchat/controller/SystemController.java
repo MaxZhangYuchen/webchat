@@ -28,10 +28,7 @@ public class SystemController {
         return "registry";  //thymeleaf 模板引擎
     }
 
-    @RequestMapping("chat")
-    public String chatRoom(Model model, User user){
-        model.addAttribute("nickname",user.getNickname());
-        return "chatroom";
-    }
+    @RequestMapping("chatroom")
+    public String chatRoom(){return "chatroom";}
 
 }

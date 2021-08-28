@@ -36,24 +36,23 @@ $(document)
 ;
 
 //登录账号
-$("#login").on("click", function(){  //点击login触发行为
+$("#login").on("click", function() {            //点击login触发行为
     $.ajax({
-        url:"/user/login",
-        type:"POST",
-        data:{
-            email: $("#email").val(), //获取email
-            password: $("#password").val()
+        url: "/user/login",
+        type: "POST",
+        data: {
+            email: $("#email").val(),           //获取email
+            password: $("#password").val()      //password
         },
-        resultType:"JSON",
-        success:function (result){
-
-            alert(result.nickname + "登录成功") //返回登录成功提示框,message为UserService中的resultMap
-            if(200 === result.code){     //注册成功跳转
-                window.open("chat","_self");
-
+        resultType: "JSON",
+        success: function (result) {
+            alert(result.nickname + "登录成功")             //返回登录成功提示框,message为UserService中的resultMap
+            if (200 === result.code) {                  //登录成功跳转
+                window.location.href= "chatroom?" + result.nickname + "";  //生成带昵称的url，跳转到chatroom
             }
         },
-        error:function (result){}
+        error: function (result) {
+        }
 
     })
 });

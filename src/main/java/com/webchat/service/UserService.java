@@ -103,7 +103,7 @@ public class UserService {
             return resultMap;
         }
         //查询到一个用户，进行密码比对
-        User user1 = userList.get(0);  //u为userlist的第一个，从数据库中查到的
+        User user1 = userList.get(0);  //user1为userlist的第一个，从数据库中查到的
         String md5psw = SecureUtil.md5(user.getPassword() + user1.getSalt());      //浏览器获取到的输入的密码+账号在数据库存储的salt ->生成MD5与用户保存在数据库中的密码进行比对
         //密码不一致，返回，用户名或密码错误
         if(!user1.getPassword().equals(md5psw)){
