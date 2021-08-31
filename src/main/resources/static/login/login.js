@@ -48,7 +48,7 @@ $("#login").on("click", function() {            //点击login触发行为
         success: function (result) {
             alert(result.nickname + "登录成功")             //返回登录成功提示框,message为UserService中的resultMap
             if (200 === result.code) {                  //登录成功跳转
-                window.location.href= "chatroom?" + result.nickname + "";  //生成带昵称的url，跳转到chatroom
+                window.location.href= "chat?" + result.nickname + "";  //生成带昵称的url，跳转到chatroom
             }
         },
         error: function (result) {

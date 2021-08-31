@@ -10,7 +10,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker  //使用STOMP协议
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     /**
-     * 注册一个websocket端点，客户端使用它连接到websocket服务器
+     * 注册一个websocket端点，客户端使用它连接到websocket服务器,并映射指定的url
      * @param registry
      */
     @Override
@@ -24,9 +24,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
      */
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        //服务器端点请求前缀
+        //设置客户端订阅消息的基础路径
         registry.setApplicationDestinationPrefixes("/app");
-        //客户订阅路径前缀
+        //设置服务器广播消息的基础路径
         registry.enableSimpleBroker("/topic");
     }
 }

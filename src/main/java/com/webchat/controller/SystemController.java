@@ -28,7 +28,7 @@ public class SystemController {
         return "registry";  //thymeleaf 模板引擎
     }
 
-    @RequestMapping("chatroom")
-    public String chatRoom(){return "chatroom";}
+    @RequestMapping("chat")
+    public String chatRoom(){return "chat";}
 
 }
