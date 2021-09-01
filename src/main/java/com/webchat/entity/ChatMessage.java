@@ -13,7 +13,7 @@ public class ChatMessage {
     private String content;     //消息内容
     private String sender;      //发送者
     private String receiver;   //接收者
-    //private int num;     //当前在线人数
+    private int num;     //当前在线人数
 
     public enum MessageType {
         CHAT,   //消息

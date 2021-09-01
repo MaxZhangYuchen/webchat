@@ -6,7 +6,7 @@ var messageInput = document.querySelector('#message');
 var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('.connecting');
 var stompClient = null;
-var userOfNum = document.querySelector("#userOfNum");
+var numArea = document.querySelector("#numArea");
 
 var url = location.href;
 var num = url.indexOf("?");  //找到？的位置
@@ -69,7 +69,7 @@ function onMessageReceived(payload) {
 
     var message = JSON.parse(payload.body);
     var messageElement = document.createElement('li');
-
+    var numElement = document.createElement("p")
     if(message.type === 'JOIN') {
         messageElement.classList.add('event-message');
         message.content = message.sender + ' 来到聊天室!';
@@ -77,6 +77,8 @@ function onMessageReceived(payload) {
         var messageText = document.createTextNode(message.content);
         textElement.appendChild(messageText);
 
+        numElement = document.createTextNode(message.num);
+        numArea.appendChild(numElement);
         messageElement.appendChild(textElement);
         messageArea.appendChild(messageElement);
         messageArea.scrollTop = messageArea.scrollHeight;
@@ -88,6 +90,8 @@ function onMessageReceived(payload) {
         var messageText = document.createTextNode(message.content);
         textElement.appendChild(messageText);
 
+        numElement = document.createTextNode(message.num);
+        numArea.appendChild(numElement);
         messageElement.appendChild(textElement);
         messageArea.appendChild(messageElement);
         messageArea.scrollTop = messageArea.scrollHeight;
