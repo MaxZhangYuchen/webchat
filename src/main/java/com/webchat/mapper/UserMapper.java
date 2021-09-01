@@ -13,7 +13,8 @@ import java.util.List;
 //SQL
 public interface UserMapper {
     /**
-     * 新增账号，createAccount
+     * 新增账号
+     * createAccount调用
      * @param user
      * @return
      */
@@ -22,7 +23,8 @@ public interface UserMapper {
     int insertUser(User user);
 
     /**
-     * 根据确认码查询用户，activationAccount
+     * 根据确认码查询用户
+     * activationAccount 调用
      * @param confirmCode
      * @return
      */
@@ -30,7 +32,8 @@ public interface UserMapper {
     User selectUserByConfirmCode(@Param("confirmCode") String confirmCode);
 
     /**
-     * 经过上一步查询后没有问题，并且在激活时间之内，activationAccount
+     * 更新用户为激活状态
+     * activationAccount 调用
      * @param confirmCode
      * @return
      */
@@ -38,7 +41,8 @@ public interface UserMapper {
     int updateUserByConfirmCode(@Param("confirmCode") String confirmCode);
 
     /**
-     * 根据邮箱查询用户，loginAccount
+     * 根据邮箱查询用户
+     * loginAccount 调用
      * 查询出昵称，邮箱，密码，盐
      * @param email
      * @return

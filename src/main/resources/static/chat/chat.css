@@ -6,7 +6,7 @@
 
 html,body {
     height: 100%;
-    overflow: hidden;
+    overflow-scrolling: auto;
 }
 
 body {
@@ -34,7 +34,7 @@ body {
 }
 
 .form-control {
-    width: 100%;
+    width: 50%;
     min-height: 38px;
     font-size: 15px;
     border: 1px solid #c8c8c8;
@@ -146,7 +146,7 @@ button.primary {
 }
 
 #chat-page #messageForm {
-    padding: 20px;
+    padding: 10px;
 }
 
 #chat-page ul li {
@@ -278,6 +278,6 @@ button.primary {
     }
 
     .chat-header h2 {
-        font-size: 1.1em;
+        font-size: 0.5em;
     }
 }

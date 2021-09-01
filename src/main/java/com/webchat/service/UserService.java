@@ -18,9 +18,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 账号的登录、注册
+ */
 @Service
 public class UserService {
 
+    //导入资源
     @Resource
     private UserMapper userMapper;
     @Resource
@@ -65,7 +69,7 @@ public class UserService {
         //新增账号
         int result = userMapper.insertUser(user);
 
-
+        //注册成功发送激活邮件
         if(result >0){
             //发送邮件
             String activationUrl = "http://localhost:8080/user/activation?confirmCode=" + confirmCode; //在链接后面追加confirmCode
@@ -79,6 +83,7 @@ public class UserService {
         }
         return resultMap;
     }
+
 
     /**
      * 登录账户
@@ -105,12 +110,14 @@ public class UserService {
         //查询到一个用户，进行密码比对
         User user1 = userList.get(0);  //user1为userlist的第一个，从数据库中查到的
         String md5psw = SecureUtil.md5(user.getPassword() + user1.getSalt());      //浏览器获取到的输入的密码+账号在数据库存储的salt ->生成MD5与用户保存在数据库中的密码进行比对
+
         //密码不一致，返回，用户名或密码错误
         if(!user1.getPassword().equals(md5psw)){
             resultMap.put("code", 400);
             resultMap.put("message", "邮箱或密码错误");
             return resultMap;
         }
+
         //相同，返回：登录成功
         resultMap.put("code", 200);
         resultMap.put("message", "登录成功");
@@ -128,7 +135,7 @@ public class UserService {
     @Transactional
     public Map<String, Object> activationAccount(String confirmCode) {
         Map<String,Object> resultMap = new HashMap<>();
-        //根据确认码查询用户
+        //根据确认码查询用户 -> email & activation_time
         User user = userMapper.selectUserByConfirmCode(confirmCode);
         //判断是否超时
         boolean after = LocalDateTime.now().isAfter(user.getActivationTime());
@@ -137,7 +144,7 @@ public class UserService {
             resultMap.put("message","链接失效请重新注册");
             return resultMap;
         }
-        //根据确认码查询用户并修改状态值为1
+        //更新用户为激活状态
         int result = userMapper.updateUserByConfirmCode(confirmCode);
         if(result > 0){
             resultMap.put("code",200);

@@ -10,24 +10,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SystemController {
 
     /**
-     * 调到登录界面
+     * 自动跳到登录界面
      * @return
      */
     @RequestMapping("/")
     public String root(){return "redirect:/login";}
     /**
-     * 登录页面跳转
+     * 登录页面
      * */
     @GetMapping("login")
     public String login(){
-        return "login";  //thymeleaf 模板引擎
+        return "login";
     }
 
+    /**
+     * 注册页面
+     * @return
+     */
     @GetMapping("registry")
     public String registry(){
-        return "registry";  //thymeleaf 模板引擎
+        return "registry";
     }
 
+    /**
+     * 聊天室主页
+     * @return
+     */
     @RequestMapping("chat")
     public String chatRoom(){return "chat";}
 

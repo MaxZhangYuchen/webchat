@@ -1,22 +1,28 @@
 'use strict';
 
+//定义document区域
 var messageForm = document.querySelector('#messageForm');
 var receiverInput = document.querySelector("#receiver");
 var messageInput = document.querySelector('#message');
 var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('.connecting');
 var stompClient = null;
-var userOfNum = document.querySelector("#userOfNum");
+var numArea = document.querySelector("#onlineUser")
 
+//解析出用户名
 var url = location.href;
-var num = url.indexOf("?");  //找到？的位置
-var username = url.substr(num+1);  //解析出用户名
+var num = url.indexOf("?");
+var username = url.substr(num+1);
 
+//头像颜色
 var colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
     '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
 ];
 
+/**
+ * 连接到socket
+ */
 function connect() {
     if(username) {
         //定义请求服务器端点
@@ -24,16 +30,17 @@ function connect() {
         //创建stomp客户端
         stompClient = Stomp.over(socket);
         //连接服务器端点
-        stompClient.connect({}, onConnected, onError);
+        stompClient.connect({}, onConnected);
     }
 }
 
-
+/**
+ * 连接服务器
+ */
 function onConnected() {
-
-    // Subscribe to the Public Topic
+    //订阅到服务器
     stompClient.subscribe('/topic/public', onMessageReceived);
-    // Tell your username to the server
+    //发出添加用户请求
     stompClient.send("/app/chat.addUser",
         {},
         JSON.stringify({sender: username, type: 'JOIN'})
@@ -42,12 +49,10 @@ function onConnected() {
 }
 
 
-function onError(error) {
-    connectingElement.textContent = 'Could not connect to WebSocket server. Please refresh this page to try again!';
-    connectingElement.style.color = 'red';
-}
-
-
+/**
+ * 发送消息
+ * @param event
+ */
 function sendMessage(event) {
     var messageContent = messageInput.value.trim(); //trim去除头尾空格
     if(messageContent && stompClient) {
@@ -64,7 +69,11 @@ function sendMessage(event) {
     event.preventDefault();
 }
 
-
+/**
+ * 接受消息
+ * 根据消息类型显示
+ * @param payload
+ */
 function onMessageReceived(payload) {
 
     var message = JSON.parse(payload.body);
@@ -76,10 +85,14 @@ function onMessageReceived(payload) {
         var textElement = document.createElement('p');
         var messageText = document.createTextNode(message.content);
         textElement.appendChild(messageText);
-
         messageElement.appendChild(textElement);
         messageArea.appendChild(messageElement);
         messageArea.scrollTop = messageArea.scrollHeight;
+
+        numArea.innerHTML="";
+        var onlineUserElement = document.createTextNode("当前在线人数：" + message.num);
+        numArea.appendChild(onlineUserElement);
+
 
     } else if (message.type === 'LEAVE') {
         messageElement.classList.add('event-message');
@@ -87,10 +100,13 @@ function onMessageReceived(payload) {
         var textElement = document.createElement('p');
         var messageText = document.createTextNode(message.content);
         textElement.appendChild(messageText);
-
         messageElement.appendChild(textElement);
         messageArea.appendChild(messageElement);
         messageArea.scrollTop = messageArea.scrollHeight;
+
+        numArea.innerHTML="";
+        var onlineUserElement = document.createTextNode("当前在线人数：" + message.num);
+        numArea.appendChild(onlineUserElement);
 
     } else if(message.receiver === username || message.receiver === "" || message.sender === username) {            //私聊的信息只有自己和对方能收到，群发的都可以收到
         messageElement.classList.add('chat-message');
@@ -114,11 +130,13 @@ function onMessageReceived(payload) {
         messageArea.scrollTop = messageArea.scrollHeight;
 
     }
-
-
 }
 
-
+/**
+ * 获取头像颜色
+ * @param messageSender
+ * @returns {string}
+ */
 function getAvatarColor(messageSender) {
     var hash = 0;
     for (var i = 0; i < messageSender.length; i++) {
@@ -128,5 +146,6 @@ function getAvatarColor(messageSender) {
     return colors[index];
 }
 
-window.onload = connect();
-messageForm.addEventListener('submit', sendMessage, true)
+
+window.onload = connect();  //页面打开时运行
+messageForm.addEventListener('submit', sendMessage, true)       //监听发送按钮

@@ -1,6 +1,4 @@
 package com.webchat.service;
-
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -13,6 +11,9 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.Date;
 
+/**
+ * 邮件服务
+ */
 @Service
 public class MailService {
 
@@ -51,6 +52,7 @@ public class MailService {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
+        //邮件发送
         javaMailSender.send(mimeMessage);
         }
 
