@@ -1,6 +1,8 @@
 package com.webchat.mapper;
 
+import com.webchat.entity.ChatMessage;
 import com.webchat.entity.User;
+import javafx.scene.chart.ValueAxis;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -21,6 +23,16 @@ public interface UserMapper {
     @Insert("INSERT INTO user( nickname, email, password, salt, confirm_code, activation_time, is_valid)" +
             "VALUES(#{nickname}, #{email}, #{password}, #{salt}, #{confirmCode}, #{activationTime}, #{isValid})")
     int insertUser(User user);
+
+    /**
+     * 加入聊天记录到数据库
+     * @param chatMessage
+     * @return
+     */
+    @Insert("INSERT INTO chat_message(sender, receiver, content, send_time)" +
+            "VALUE(#{sender},#{receiver},#{content},#{sendTime})")
+    int insertChatMessage(ChatMessage chatMessage);
+
 
     /**
      * 根据确认码查询用户
@@ -49,6 +61,7 @@ public interface UserMapper {
      */
     @Select("SELECT nickname, email, password, salt FROM user WHERE email = #{email} AND is_valid=1")
     List<User> selectUserByEmail(@Param("email") String email);
+
 
 
 }

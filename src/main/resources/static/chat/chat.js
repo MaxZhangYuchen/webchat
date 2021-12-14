@@ -55,16 +55,19 @@ function onConnected() {
  */
 function sendMessage(event) {
     var messageContent = messageInput.value.trim(); //trim去除头尾空格
+    var mydate = new Date();
     if(messageContent && stompClient) {
         var chatMessage = {
             sender: username,
             content: messageInput.value,
             type: 'CHAT',
-            receiver: receiverInput.value
+            receiver: receiverInput.value,
+            sendTime: mydate.toLocaleString()
         };
 
         stompClient.send('/app/chat.sendMessage', {}, JSON.stringify(chatMessage));
         messageInput.value = '';
+        receiverInput.value= '';
     }
     event.preventDefault();
 }

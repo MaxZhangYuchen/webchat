@@ -1,6 +1,7 @@
 package com.webchat.controller;
 
 import com.webchat.entity.ChatMessage;
+import com.webchat.service.ChatService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
+import javax.annotation.Resource;
+
 @Component
 @Controller
 public class ChatController {
 
+    @Resource
+    private ChatService chatService;
     //生成日志
     private static final Logger logger = LoggerFactory.getLogger(ChatController.class);
 
@@ -68,9 +73,11 @@ public class ChatController {
      * @return
      */
     @MessageMapping("/chat.sendMessage")        //MessageMapping接受客户端信息
-    @SendTo("/topic/public")                    //SendTo广播出去
-    public ChatMessage sendMessage(@Payload ChatMessage chatMessage){
-        return chatMessage;
+    public int sendMessage(@Payload ChatMessage chatMessage){
+
+        messagingTemplate.convertAndSend("/topic/public", chatMessage);
+        logger.info(chatMessage.getSendTime());
+        return chatService.saveMessage(chatMessage);
     }
 
 
