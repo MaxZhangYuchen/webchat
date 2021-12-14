@@ -2,7 +2,6 @@ package com.webchat.mapper;
 
 import com.webchat.entity.ChatMessage;
 import com.webchat.entity.User;
-import javafx.scene.chart.ValueAxis;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

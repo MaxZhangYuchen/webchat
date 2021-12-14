@@ -3,9 +3,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver   # mysql8版本的数据库使用这个driver
-    url: jdbc:mysql://localhost:3306/chat?user=root/serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&&useSSL=false #时区，字符集，编码，SSL认证
+    url: jdbc:mysql://localhost:3306/webchat?user=root/serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&&useSSL=false #时区，字符集，编码，SSL认证
     username: root
-    password: 123456
+    password: yjh85911324
   mail:
     protocol: smtp # 邮件协议
     host: smtp.163.com # qq邮箱 smtp 服务器地址
